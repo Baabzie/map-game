@@ -1,0 +1,14 @@
+header {
+    display: flex;
+    justify-content: center;
+}
+
+.question-div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    p {
+        margin: 0;
+    }
+}
