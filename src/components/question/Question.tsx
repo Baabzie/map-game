@@ -79,22 +79,26 @@ const jsonData: LocationData[] = [
     longitude: 18.078978881612034
   },
   {
-    questionSwe: "McDonald's i Alanya",
-    latitude: 36.545129243933985,
-    longitude: 31.992903979041063
-  },
-  {
-    questionSwe: "Vattenland i Alanya",
-    latitude: 36.546373416285284,
-    longitude: 31.98850714412972
-  },
-  {
     questionSwe: "Alanyas slott",
     latitude: 36.5337390737644,
     longitude: 31.990495809756748
   },
+  {
+    questionSwe: "Restaurangen Elite i Alanya",
+    latitude: 36.544366831826956,
+    longitude: 31.987295376181276
+  },
+  {
+    questionSwe: "Hotellet 'Kleopatra Dreams Beach Hotel' i Alanya",
+    latitude: 36.554158433978664,
+    longitude: 31.97481446578372
+  },
+  {
+    questionSwe: "Hotellet 'Villa Sonata' i Alanya",
+    latitude: 36.54283327465672,
+    longitude: 31.99207411305604
+  },
 ];
-
 
 function calculateDistance(lat1: number, lon1: number, lat2: number, lon2: number): number {
   const R = 6371; // Radius of the Earth in kilometers
