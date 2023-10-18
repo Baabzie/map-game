@@ -73,6 +73,11 @@ const jsonData: LocationData[] = [
     latitude: 59.3178066330842,
     longitude: 18.0377022869954
   },
+  {
+    questionSwe: "Café Eurobar",
+    latitude: 59.309934187783654,
+    longitude: 18.078978881612034
+  },
 ];
 
 
