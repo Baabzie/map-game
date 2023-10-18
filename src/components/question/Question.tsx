@@ -83,7 +83,7 @@ function Question(props: QuestionProps) {
     <div>
       {closestLocation ? (
         <div className='question-div'>
-          <p>Go to:</p>
+          <p>Gå till:</p>
           <p>{closestLocation.questionSwe}</p>
         </div>
       ) : (
