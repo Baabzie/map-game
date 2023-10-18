@@ -78,6 +78,21 @@ const jsonData: LocationData[] = [
     latitude: 59.309934187783654,
     longitude: 18.078978881612034
   },
+  {
+    questionSwe: "McDonald's i Alanya",
+    latitude: 36.545129243933985,
+    longitude: 31.992903979041063
+  },
+  {
+    questionSwe: "Vattenland i Alanya",
+    latitude: 36.546373416285284,
+    longitude: 31.98850714412972
+  },
+  {
+    questionSwe: "Alanyas slott",
+    latitude: 36.5337390737644,
+    longitude: 31.990495809756748
+  },
 ];
 
 
