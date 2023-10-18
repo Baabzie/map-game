@@ -3,7 +3,7 @@ import React from 'react';
 const Header: React.FC = () => {
     return (
         <header>
-            <h1>Map Game</h1>
+            <h1>Kartspelet</h1>
         </header>
     );
 }
