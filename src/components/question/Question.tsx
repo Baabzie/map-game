@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { calculateDistance } from '@/hooks/calculateDistance';
+
 // Define the structure of your location data
 interface LocationData {
   questionSwe: string;
@@ -85,22 +87,6 @@ const jsonData: LocationData[] = [
   },
 ];
 
-function calculateDistance(lat1: number, lon1: number, lat2: number, lon2: number): number {
-  const R = 6371; // Radius of the Earth in kilometers
-  const lat1Rad = (Math.PI * lat1) / 180;
-  const lat2Rad = (Math.PI * lat2) / 180;
-  const deltaLat = (Math.PI * (lat2 - lat1)) / 180;
-  const deltaLon = (Math.PI * (lon2 - lon1)) / 180;
-
-  const a =
-    Math.sin(deltaLat / 2) * Math.sin(deltaLat / 2) +
-    Math.cos(lat1Rad) * Math.cos(lat2Rad) * Math.sin(deltaLon / 2) * Math.sin(deltaLon / 2);
-
-  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-
-  return R * c; // Distance in kilometers
-}
-
 function getLocationsWithinRange(userLocation: { latitude: number | null; longitude: number | null } | null, jsonData: LocationData[]): LocationData[] {
   if (!userLocation) {
     return [];
@@ -125,24 +111,31 @@ function getLocationsWithinRange(userLocation: { latitude: number | null; longit
 function Question(props: QuestionProps) {
   const locationsWithinRange = getLocationsWithinRange(props.userLocation, jsonData);
 
-  return (
-    <div>
-      <div className='question-div'>
-      {locationsWithinRange.length > 0 ? (
-        <>
-          <p>Locations Within 1-2 km:</p>
-          <ul>
-            {locationsWithinRange.map((location, index) => (
-              <li key={index}>{location.questionSwe}</li>
-              ))}
-          </ul>
-        </>
-      ) : (
-        <p>No locations found within the specified range.</p>
-      )}
+  // Generate a random index within the range of the locationsWithinRange array
+  const randomIndex = Math.floor(Math.random() * locationsWithinRange.length);
+
+  // Check if there are locations within range
+  if (locationsWithinRange.length > 0) {
+    // Display the randomly selected location
+    const randomLocation = locationsWithinRange[randomIndex];
+    return (
+      <div>
+        <div className='question-div'>
+          <p>Random Location Within 1-2 km:</p>
+          <p>{randomLocation.questionSwe}</p>
+          <p>{randomLocation.latitude} - {randomLocation.longitude}</p>
         </div>
-    </div>
-  );
+      </div>
+    );
+  } else {
+    return (
+      <div>
+        <div className='question-div'>
+          <p>No locations found within the specified range.</p>
+        </div>
+      </div>
+    );
+  }
 }
 
 export default Question;
