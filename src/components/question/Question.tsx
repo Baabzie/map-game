@@ -79,24 +79,9 @@ const jsonData: LocationData[] = [
     longitude: 18.078978881612034
   },
   {
-    questionSwe: "Alanyas slott",
-    latitude: 36.5337390737644,
-    longitude: 31.990495809756748
-  },
-  {
-    questionSwe: "Restaurangen Elite i Alanya",
-    latitude: 36.544366831826956,
-    longitude: 31.987295376181276
-  },
-  {
-    questionSwe: "Hotellet 'Kleopatra Dreams Beach Hotel' i Alanya",
-    latitude: 36.554158433978664,
-    longitude: 31.97481446578372
-  },
-  {
-    questionSwe: "Hotellet 'Villa Sonata' i Alanya",
-    latitude: 36.54283327465672,
-    longitude: 31.99207411305604
+    questionSwe: "Adolf Fredriks kyrka",
+    latitude: 59.337903803257355,
+    longitude: 18.060059393093184
   },
 ];
 
@@ -116,39 +101,46 @@ function calculateDistance(lat1: number, lon1: number, lat2: number, lon2: numbe
   return R * c; // Distance in kilometers
 }
 
-function findClosestLocation(userLocation: { latitude: number | null; longitude: number | null } | null, jsonData: LocationData[]): LocationData | null {
+function getLocationsWithinRange(userLocation: { latitude: number | null; longitude: number | null } | null, jsonData: LocationData[]): LocationData[] {
   if (!userLocation) {
-    return null;
+    return [];
   }
 
-  let closestLocation: LocationData | null = null;
-  let closestDistance = Number.MAX_VALUE;
+  // Create a new array to store locations within the specified range
+  const locationsWithinRange: LocationData[] = [];
 
   for (const location of jsonData) {
-    const distance = calculateDistance(userLocation.latitude || 0, userLocation.longitude || 0, location.latitude, location.longitude);
+    const distance = calculateDistance(userLocation.latitude || 0, userLocation.longitude || 0, location.latitude, location.longitude) * 1000;
+    console.log(distance)
 
-    if (distance < closestDistance) {
-      closestDistance = distance;
-      closestLocation = location;
+    // Check if the location is within 1-2 kilometers
+    if (distance >= 1000 && distance <= 2000) {
+      locationsWithinRange.push(location);
     }
   }
 
-  return closestLocation;
+  return locationsWithinRange;
 }
 
 function Question(props: QuestionProps) {
-  const closestLocation = findClosestLocation(props.userLocation, jsonData);
+  const locationsWithinRange = getLocationsWithinRange(props.userLocation, jsonData);
 
   return (
     <div>
-      {closestLocation ? (
-        <div className='question-div'>
-          <p>Gå till:</p>
-          <p>{closestLocation.questionSwe}</p>
-        </div>
+      <div className='question-div'>
+      {locationsWithinRange.length > 0 ? (
+        <>
+          <p>Locations Within 1-2 km:</p>
+          <ul>
+            {locationsWithinRange.map((location, index) => (
+              <li key={index}>{location.questionSwe}</li>
+              ))}
+          </ul>
+        </>
       ) : (
-        <p>No location data available.</p>
+        <p>No locations found within the specified range.</p>
       )}
+        </div>
     </div>
   );
 }

@@ -24,7 +24,6 @@ interface AppProps {
 
 const App: React.FC<AppProps> = ({ Component, pageProps }) => {
   const userLocation = useGeolocation();
-  console.log(userLocation)
 
 
   //Test variables
