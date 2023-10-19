@@ -122,8 +122,18 @@ function Question(props: QuestionProps) {
       <div>
         <div className='question-div'>
           <p>Random Location Within 1-2 km:</p>
+          <br/>
           <p>{randomLocation.questionSwe}</p>
+          <br/>
           <p>{randomLocation.latitude} - {randomLocation.longitude}</p>
+          <br/>
+          <ul>
+            {locationsWithinRange.map((location) => {
+              return (
+                <li>{location.questionSwe}</li>
+              )
+            })}
+          </ul>
         </div>
       </div>
     );
