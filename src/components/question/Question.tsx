@@ -128,9 +128,9 @@ function Question(props: QuestionProps) {
           <p>{randomLocation.latitude} - {randomLocation.longitude}</p>
           <br/>
           <ul>
-            {locationsWithinRange.map((location) => {
+            {locationsWithinRange.map((location, i) => {
               return (
-                <li>{location.questionSwe}</li>
+                <li key={i}>{location.questionSwe}</li>
               )
             })}
           </ul>
