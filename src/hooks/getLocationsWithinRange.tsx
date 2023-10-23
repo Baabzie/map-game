@@ -17,7 +17,6 @@ export function getLocationsWithinRange(userLocation: { latitude: number | null;
   
     for (const location of jsonData) {
       const distance = calculateDistance(userLocation.latitude || 0, userLocation.longitude || 0, location.latitude, location.longitude) * 1000;
-      console.log(distance)
   
       // Check if the location is within 1-2 kilometers
       if (distance >= 1000 && distance <= 2000) {
