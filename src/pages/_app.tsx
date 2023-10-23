@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import '@/styles/globals.css';
 import Layout from '@/components/layout/Layout';
 import { getMyLocation } from '@/hooks/getMyLocation';
+import { locationCorrect } from '@/hooks/locationCorrect';
 import { getLocationsWithinRange } from '@/hooks/getLocationsWithinRange';
 import { jsonData } from '@/data/jsonData';
 import Question from '@/components/question/Question';
@@ -26,8 +27,10 @@ interface QuestionLocation {
 
 const App: React.FC<AppProps> = ({ Component, pageProps }) => {
   const [userLocation, setUserLocation] = useState<Location>({ latitude: null, longitude: null });
+  const [correctUserLocation, setCorrectUserLocation] = useState<Location>({ latitude: null, longitude: null });
   const [locationActive, setLocationActive] = useState<Boolean>(false);
   const [questionLocation, setQuestionLocation] = useState<QuestionLocation>({ latitude: null, longitude: null, questionSwe: null });
+  const [correct, setCorrect] = useState<boolean | null>(null);
 
   useEffect(() => {
     let activeQuestion = JSON.parse(localStorage.getItem("activeQuestion")!);
@@ -52,12 +55,31 @@ const App: React.FC<AppProps> = ({ Component, pageProps }) => {
       localStorage.setItem("activeQuestion", JSON.stringify(activeQuestion));
     }
   },[userLocation])
-  
 
-  // Use the imported getMyLocation function
+  const eraseActiveQuestion = () => {
+      let activeQuestion = null;
+      localStorage.setItem("activeQuestion", JSON.stringify(activeQuestion));
+      setLocationActive(false);
+      setCorrect(null);
+  }
+  
   const handleGetLocation = () => {
     getMyLocation(setUserLocation);
   };
+
+  const handleCorrectLocation = () => {
+    getMyLocation(setCorrectUserLocation);
+    console.log(correctUserLocation)
+    if (locationCorrect(correctUserLocation, questionLocation)) {
+      let activeQuestion = null;
+      localStorage.setItem("activeQuestion", JSON.stringify(activeQuestion));
+      setLocationActive(false);
+      setCorrect(true);
+    }
+    else {
+      setCorrect(false);
+    }
+  }
 
   return (
     <Layout>
@@ -65,7 +87,8 @@ const App: React.FC<AppProps> = ({ Component, pageProps }) => {
       {locationActive ? (
         <>
           <Question questionLocation={questionLocation} />
-          <button>Titta om du hamnat rätt!</button>
+          <button onClick={() => {handleCorrectLocation()}}>Titta om du hamnat rätt!</button>
+          <button onClick={() => {eraseActiveQuestion()}}>Ny fråga</button>
         </>
       ) : (
         <>
@@ -73,6 +96,7 @@ const App: React.FC<AppProps> = ({ Component, pageProps }) => {
           <p>Tryck på knappen ovan för att börja!</p>
         </>
       )}
+      {correct === true ? <p>Rätt!</p> : correct === false ? <p>Fel!</p> : null}
     </Layout>
   );
 }

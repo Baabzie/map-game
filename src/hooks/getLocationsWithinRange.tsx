@@ -19,7 +19,7 @@ export function getLocationsWithinRange(userLocation: { latitude: number | null;
       const distance = calculateDistance(userLocation.latitude || 0, userLocation.longitude || 0, location.latitude, location.longitude) * 1000;
   
       // Check if the location is within 1-2 kilometers
-      if (distance >= 1000 && distance <= 2000) {
+      if (distance >= 0 && distance <= 2000) {
         locationsWithinRange.push(location);
       }
     }
