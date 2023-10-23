@@ -1,23 +1,12 @@
-// Create a custom hook for geolocation
-
-import { useEffect, useState } from 'react';
-
-interface Location {
-  latitude: number | null;
-  longitude: number | null;
-}
-
-export function useGeolocation(): Location {
-  const [location, setLocation] = useState<Location>({ latitude: null, longitude: null });
-
-  useEffect(() => {
+export function getMyLocation(setUserLocation: Function) {
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
-          setLocation({
+          const location = {
             latitude: position.coords.latitude,
             longitude: position.coords.longitude,
-          });
+          };
+          setUserLocation(location);
         },
         (error) => {
           console.error("Error getting location:", error);
@@ -26,7 +15,4 @@ export function useGeolocation(): Location {
     } else {
       console.error("Geolocation is not available in this browser.");
     }
-  }, []);
-
-  return location;
-}
+  }

@@ -1,20 +1,8 @@
-// import '@/styles/globals.css'
-// import Layout from '@/components/layout/Layout'
-
-// export default function App({ Component, pageProps }) {
-//   return (
-//     <>
-//       <Layout>
-//         <Component {...pageProps} />
-//       </Layout>
-//     </>
-//     )
-// }
-
 import React from 'react';
+import { useState } from 'react';
 import '@/styles/globals.css';
 import Layout from '@/components/layout/Layout';
-import { useGeolocation } from '@/hooks/useGeolocation';
+import { getMyLocation } from '@/hooks/getMyLocation';
 import Question from '@/components/question/Question';
 
 interface AppProps {
@@ -22,20 +10,33 @@ interface AppProps {
   pageProps: Record<string, any>;
 }
 
+interface Location {
+  latitude: number | null;
+  longitude: number | null;
+}
+
+
 const App: React.FC<AppProps> = ({ Component, pageProps }) => {
-  const userLocation = useGeolocation();
+  const [userLocation, setUserLocation] = useState<Location>({ latitude: null, longitude: null });
+  const [locationActive, setLocationActive] = useState<Boolean>(false);
+  
 
-
-  //Test variables
-  const home = {latitude: 59.30992626125095, longitude: 18.074115296829312}
-  const oldHome = {latitude: 59.31505460967073, longitude: 18.08529895002025}
+    // Use the imported getMyLocation function
+    const handleGetLocation = () => {
+      getMyLocation(setUserLocation);
+    };
 
   return (
     <Layout>
       <Component {...pageProps} />
-      {userLocation && (
+      <button onClick={() => {handleGetLocation(), setLocationActive(true)}}>Ge mig en position</button>
+      {locationActive ? (
         <>
           <Question userLocation={userLocation} />
+        </>
+      ) : (
+        <>
+          <p>Tryck på knappen ovan för att börja!</p>
         </>
       )}
     </Layout>
