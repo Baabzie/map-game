@@ -13,7 +13,7 @@ function Question(props: QuestionProps) {
     return (
       <div>
         <div className='question-div'>
-          <p>En plats 1-2 km bort:</p>
+          <p>En plats 0-2 km bort:</p>
           <p>{questionLocation.questionSwe}</p>
         </div>
       </div>
