@@ -22,7 +22,7 @@ function Question(props: QuestionProps) {
     return (
       <div>
         <div className='question-div'>
-          <p>Hittade ingen plats 1-2km bort.</p>
+          <p>Hittade ingen plats 0-2km bort.</p>
         </div>
       </div>
     );

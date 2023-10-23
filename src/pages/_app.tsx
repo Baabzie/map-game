@@ -33,8 +33,8 @@ const App: React.FC<AppProps> = ({ Component, pageProps }) => {
   const [correct, setCorrect] = useState<boolean | null>(null);
 
   useEffect(() => {
+    console.log(correct)
     let activeQuestion = JSON.parse(localStorage.getItem("activeQuestion")!);
-    console.log(activeQuestion);
     if (activeQuestion) {
       setQuestionLocation(activeQuestion);
       setLocationActive(true);
@@ -47,7 +47,6 @@ const App: React.FC<AppProps> = ({ Component, pageProps }) => {
 
     if (locationsWithinRange.length > 0) {
       const randomLocation = locationsWithinRange[randomIndex];
-      console.log(randomLocation);
       setQuestionLocation(randomLocation);
       setLocationActive(true);
 
@@ -55,6 +54,18 @@ const App: React.FC<AppProps> = ({ Component, pageProps }) => {
       localStorage.setItem("activeQuestion", JSON.stringify(activeQuestion));
     }
   },[userLocation])
+
+  useEffect(() => {
+    if (locationCorrect(correctUserLocation, questionLocation)) {
+      let activeQuestion = null;
+      localStorage.setItem("activeQuestion", JSON.stringify(activeQuestion));
+      setLocationActive(false);
+      setCorrect(true);
+    }
+    else {
+      setCorrect(false);
+    }
+  },[correctUserLocation])
 
   const eraseActiveQuestion = () => {
       let activeQuestion = null;
@@ -69,16 +80,6 @@ const App: React.FC<AppProps> = ({ Component, pageProps }) => {
 
   const handleCorrectLocation = () => {
     getMyLocation(setCorrectUserLocation);
-    console.log(correctUserLocation)
-    if (locationCorrect(correctUserLocation, questionLocation)) {
-      let activeQuestion = null;
-      localStorage.setItem("activeQuestion", JSON.stringify(activeQuestion));
-      setLocationActive(false);
-      setCorrect(true);
-    }
-    else {
-      setCorrect(false);
-    }
   }
 
   return (

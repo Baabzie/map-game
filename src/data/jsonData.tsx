@@ -62,8 +62,8 @@ interface LocationData {
 //   },
 //   {
 //     questionSwe: "Högalidskyrkan",
-//     latitude: 59.3178066330842,
-//     longitude: 18.0377022869954
+//     latitude: 59.31753486648151,
+//     longitude: 18.037675835368113
 //   },
 //   {
 //     questionSwe: "Café Eurobar",
@@ -83,4 +83,9 @@ export const jsonData: LocationData[] = [
       latitude: 59.3098901485267,
       longitude: 18.07064490325645
     },
+    {
+        questionSwe: "Hos Tobbe",
+        latitude: 59.31019103559946,
+        longitude: 18.074297769056376
+      },
   ];
