@@ -91,6 +91,7 @@ const App: React.FC<AppProps> = ({ Component, pageProps }) => {
           <Question questionLocation={questionLocation} />
           <button onClick={() => {handleCorrectLocation()}}>Titta om du hamnat rätt!</button>
           <button onClick={() => {eraseActiveQuestion()}}>Ny fråga</button>
+          {correct === true ? <p>Rätt!</p> : correct === false ? <p>Fel!</p> : null}
         </>
       ) : (
         <>
@@ -98,7 +99,6 @@ const App: React.FC<AppProps> = ({ Component, pageProps }) => {
           <p>Tryck på knappen ovan för att börja!</p>
         </>
       )}
-      {correct === true ? <p>Rätt!</p> : correct === false ? <p>Fel!</p> : null}
     </Layout>
   );
 }
