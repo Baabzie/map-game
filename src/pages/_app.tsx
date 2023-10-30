@@ -33,7 +33,6 @@ const App: React.FC<AppProps> = ({ Component, pageProps }) => {
   const [correct, setCorrect] = useState<boolean | null>(null);
 
   useEffect(() => {
-    console.log(correct)
     let activeQuestion = JSON.parse(localStorage.getItem("activeQuestion")!);
     if (activeQuestion) {
       setQuestionLocation(activeQuestion);
@@ -62,8 +61,10 @@ const App: React.FC<AppProps> = ({ Component, pageProps }) => {
       setLocationActive(false);
       setCorrect(true);
     }
-    else {
+    else if (!locationCorrect(correctUserLocation, questionLocation)) {
       setCorrect(false);
+    }
+    else {
     }
   },[correctUserLocation])
 

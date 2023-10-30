@@ -8,7 +8,7 @@ export function locationCorrect(userLocation: { latitude: number | null; longitu
         const distance = calculateDistance(userLocation.latitude || 0, userLocation.longitude || 0, questionLocation.latitude, questionLocation.longitude) * 1000;
         console.log(distance);
           // Check if the location is within (in meters)
-          if (distance >= 0 && distance <= 100) {
+          if (distance >= 0 && distance <= 50) {
             return true;
           }
           else {
