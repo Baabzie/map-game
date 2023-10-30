@@ -30,7 +30,6 @@ const App: React.FC<AppProps> = ({ Component, pageProps }) => {
   const [correctUserLocation, setCorrectUserLocation] = useState<Location>({ latitude: null, longitude: null });
   const [locationActive, setLocationActive] = useState<Boolean>(false);
   const [questionLocation, setQuestionLocation] = useState<QuestionLocation>({ latitude: null, longitude: null, questionSwe: null });
-  const [correct, setCorrect] = useState<boolean | null>(null);
 
   useEffect(() => {
     let activeQuestion = JSON.parse(localStorage.getItem("activeQuestion")!);
@@ -54,25 +53,22 @@ const App: React.FC<AppProps> = ({ Component, pageProps }) => {
     }
   },[userLocation])
 
+
   useEffect(() => {
-    if (locationCorrect(correctUserLocation, questionLocation)) {
-      let activeQuestion = null;
-      localStorage.setItem("activeQuestion", JSON.stringify(activeQuestion));
-      setLocationActive(false);
-      setCorrect(true);
+    if (correctUserLocation !== null) { // Add this condition
+      if (locationCorrect(correctUserLocation, questionLocation)) {
+        let activeQuestion = null;
+        localStorage.setItem("activeQuestion", JSON.stringify(activeQuestion));
+        setLocationActive(false);
+      } else if (!locationCorrect(correctUserLocation, questionLocation)) {
+      }
     }
-    else if (!locationCorrect(correctUserLocation, questionLocation)) {
-      setCorrect(false);
-    }
-    else {
-    }
-  },[correctUserLocation])
+  }, [correctUserLocation]);
 
   const eraseActiveQuestion = () => {
       let activeQuestion = null;
       localStorage.setItem("activeQuestion", JSON.stringify(activeQuestion));
       setLocationActive(false);
-      setCorrect(null);
   }
   
   const handleGetLocation = () => {
@@ -91,7 +87,6 @@ const App: React.FC<AppProps> = ({ Component, pageProps }) => {
           <Question questionLocation={questionLocation} />
           <button onClick={() => {handleCorrectLocation()}}>Titta om du hamnat rätt!</button>
           <button onClick={() => {eraseActiveQuestion()}}>Ny fråga</button>
-          {correct === true ? <p>Rätt!</p> : correct === false ? <p>Fel!</p> : null}
         </>
       ) : (
         <>
