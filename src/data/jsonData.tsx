@@ -84,7 +84,7 @@ export const jsonData: LocationData[] = [
       longitude: 18.07064490325645
     },
     {
-        questionSwe: "Hos Tobbe",
+        questionSwe: "Där skaparen av denna app bor..",
         latitude: 59.31019103559946,
         longitude: 18.074297769056376
       },

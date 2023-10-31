@@ -21,11 +21,12 @@ function Question(props: QuestionProps) {
     return (
       <div>
         <div className='question-div'>
-          <p>En plats 0-2 km bort:</p>
           <p>{questionLocation.questionSwe}</p>
+          <div className="btn-div">
+            <button onClick={() => { handleCorrectLocation() }}>Är jag rätt?</button>
+            <button className='new-question-btn' onClick={() => { eraseActiveQuestion() }}>Ny fråga</button>
+          </div>
         </div>
-        <button onClick={() => { handleCorrectLocation() }}>Titta om du hamnat rätt!</button>
-        <button onClick={() => { eraseActiveQuestion() }}>Ny fråga</button>
       </div>
     );
   } else {

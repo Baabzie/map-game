@@ -1,3 +1,7 @@
+body {
+    margin: 0;
+}
+
 main {
     display: flex;
     flex-direction: column;
@@ -8,6 +12,10 @@ main {
 header {
     display: flex;
     justify-content: center;
+    background-color: rgb(67, 129, 210);
+    color: rgb(235, 235, 235);
+    box-shadow: 1px 1px 5px black;
+    margin-bottom: 160px;
 }
 
 .question-div {
@@ -15,7 +23,35 @@ header {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    background-color: rgb(67, 129, 210);
+    margin-bottom: 8px;
+    padding: 12px;
+    border-radius: 4px;
+    box-shadow: 1px 1px 5px black;
+    color: rgb(235, 235, 235);
+    width: 280px;
     p {
-        margin: 0;
+        margin: 12px;
+        margin-bottom: 24px;
+        font-size: large;
     }
+}
+
+.btn-div {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+}
+
+button {
+    padding: 12px;
+    border-radius: 4px;
+    border: none;
+    box-shadow: 1px 1px 5px black;
+    font-size: large;
+}
+
+.new-question-btn {
+    background-color: rgb(218, 52, 52);
+    color: rgb(235, 235, 235);
 }
