@@ -1,4 +1,5 @@
-export function getMyLocation(setUserLocation: Function) {
+export function getMyLocation(setLocation: Function): Promise<void> {
+  return new Promise((resolve, reject) => {
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
@@ -6,13 +7,17 @@ export function getMyLocation(setUserLocation: Function) {
             latitude: position.coords.latitude,
             longitude: position.coords.longitude,
           };
-          setUserLocation(location);
+          setLocation(location);
+          resolve();
         },
         (error) => {
           console.error("Error getting location:", error);
+          reject(error);
         }
       );
     } else {
       console.error("Geolocation is not available in this browser.");
+      reject(new Error("Geolocation is not available in this browser."));
     }
-  }
+  });
+}

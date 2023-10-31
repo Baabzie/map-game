@@ -30,14 +30,32 @@ const App: React.FC<AppProps> = ({ Component, pageProps }) => {
   const [correctUserLocation, setCorrectUserLocation] = useState<Location>({ latitude: null, longitude: null });
   const [locationActive, setLocationActive] = useState<Boolean>(false);
   const [questionLocation, setQuestionLocation] = useState<QuestionLocation>({ latitude: null, longitude: null, questionSwe: null });
+  const [message, setMessage] = useState("Tryck på knappen ovan för att börja!");
+
+
+  // On page render
 
   useEffect(() => {
     let activeQuestion = JSON.parse(localStorage.getItem("activeQuestion")!);
     if (activeQuestion) {
       setQuestionLocation(activeQuestion);
       setLocationActive(true);
+      setMessage("Tryck på knappen för att se om du är på rätt plats");
     }
   }, [])
+
+  const eraseActiveQuestion = () => {
+    let activeQuestion = null;
+    localStorage.setItem("activeQuestion", JSON.stringify(activeQuestion));
+    setLocationActive(false);
+    setMessage("Tryck på knappen för en ny fråga!");
+  }
+
+  // On start of game
+  
+  const handleGetLocation = async () => {
+    await getMyLocation(setUserLocation);
+  };
 
   useEffect(() => {
     const locationsWithinRange = getLocationsWithinRange(userLocation, jsonData);
@@ -50,50 +68,43 @@ const App: React.FC<AppProps> = ({ Component, pageProps }) => {
 
       let activeQuestion = randomLocation
       localStorage.setItem("activeQuestion", JSON.stringify(activeQuestion));
+      setMessage("Tryck på knappen för att se om du är på rätt plats");
     }
   },[userLocation])
 
+  // On correction of question
+  
+  const handleCorrectLocation = async () => {
+    await getMyLocation(setCorrectUserLocation);
+  }
 
   useEffect(() => {
-    if (correctUserLocation !== null) { // Add this condition
+    if (correctUserLocation.latitude !== null || correctUserLocation.longitude !== null) { // Add this condition
       if (locationCorrect(correctUserLocation, questionLocation)) {
         let activeQuestion = null;
         localStorage.setItem("activeQuestion", JSON.stringify(activeQuestion));
         setLocationActive(false);
+        setMessage("Rätt! Tryck på knappen för att få en ny plats!");
       } else if (!locationCorrect(correctUserLocation, questionLocation)) {
+        console.log(correctUserLocation);
+        setMessage("Fel! Tryck på knappen för att testa igen!");
       }
     }
   }, [correctUserLocation]);
-
-  const eraseActiveQuestion = () => {
-      let activeQuestion = null;
-      localStorage.setItem("activeQuestion", JSON.stringify(activeQuestion));
-      setLocationActive(false);
-  }
   
-  const handleGetLocation = () => {
-    getMyLocation(setUserLocation);
-  };
-
-  const handleCorrectLocation = () => {
-    getMyLocation(setCorrectUserLocation);
-  }
-
   return (
     <Layout>
       <Component {...pageProps} />
       {locationActive ? (
         <>
-          <Question questionLocation={questionLocation} />
-          <button onClick={() => {handleCorrectLocation()}}>Titta om du hamnat rätt!</button>
-          <button onClick={() => {eraseActiveQuestion()}}>Ny fråga</button>
+          <Question questionLocation={questionLocation} handleCorrectLocation={handleCorrectLocation} eraseActiveQuestion={eraseActiveQuestion} />
         </>
       ) : (
         <>
           <button onClick={() => {handleGetLocation()}}>Ge mig en position</button>
-          <p>Tryck på knappen ovan för att börja!</p>
         </>
       )}
+      <p>{message}</p>
     </Layout>
   );
 }
